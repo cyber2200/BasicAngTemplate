@@ -1,13 +1,26 @@
 var testControllers = angular.module('testControllers', []);
 
-testControllers.controller('TestCtrl', ['$scope', function($scope) {
-	
+testControllers.controller('ShowCtrl', ['$scope', 'Data', function($scope, Data) {
+	$scope.data = Data.query();
 }]);
 
-testControllers.controller('Test1Ctrl', ['$scope', function($scope) {
-	
-}]);
-
-testControllers.controller('Test2Ctrl', ['$scope', '$routeParams', function($scope, $routeParams) {
-
+testControllers.controller('AddCtrl', ['$scope', '$http', function($scope, $http) {
+	$scope.update = function(user) {
+		if(typeof user === 'undefined'){
+			$scope.error = 'Please select a user name';
+		} else if (typeof user.name === 'undefined') {
+			$scope.error = 'Please select a user name';
+		}else {
+			$scope.error = '';
+			var req = {
+				method : 'POST',
+				url : '/ang02/BasicAngTemplate/api.php?func=addUser',
+				headers : {},
+				data : {'name' : user.name}
+			}
+			$http(req).then(function success(res) {
+				
+			});
+		}
+	}
 }]);

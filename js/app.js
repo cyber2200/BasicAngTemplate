@@ -1,19 +1,21 @@
 var testApp = angular.module('testApp', [
 	'ngRoute',
-	'testControllers'
+	'ngResource',
+	'testControllers',
+	'dataServices',
 ]);
 
 testApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.
-	when('/test1', {
-		templateUrl: 'partials/test1.html',
-		controller: 'Test1Ctrl'
+	when('/show', {
+		templateUrl: 'partials/show.html',
+		controller: 'ShowCtrl'
 	}).
-	when('/test2', {
-		templateUrl: 'partials/test2.html',
-		controller: 'Test2Ctrl'
+	when('/add', {
+		templateUrl: 'partials/add.html',
+		controller: 'AddCtrl'
 	}).
 	otherwise({
-		redirectTo: '/test1'
+		redirectTo: '/show'
 	});
 }]);
