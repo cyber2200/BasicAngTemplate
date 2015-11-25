@@ -7,7 +7,7 @@ if (isset($_GET['func']) && $_GET['func'] == 'getData') {
 		array('id' => '4', 'name' => 'Test 4'),
 		array('id' => '5', 'name' => 'Test 5'),
 		array('id' => '6', 'name' => 'Test 6'),
-		array('id' => '7', 'name' => rand(0, 1000)),
+		array('id' => '7', 'name' => 'Test 7'),
 	);
 	echo json_encode($data);
 } elseif (isset($_GET['func']) && $_GET['func'] == 'addUser') {
