@@ -20,7 +20,7 @@ testControllers.controller('AddCtrl', ['$scope', '$http', function($scope, $http
 			$scope.error = '';
 			var req = {
 				method : 'POST',
-				url : './api.php?func=addUser',
+				url : '/ang02/BasicAngTemplate/api.php?func=addUser',
 				headers : {},
 				data : {'name' : user.name}
 			}
