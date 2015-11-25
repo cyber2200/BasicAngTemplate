@@ -1,7 +1,13 @@
 var testControllers = angular.module('testControllers', []);
 
-testControllers.controller('ShowCtrl', ['$scope', 'Data', function($scope, Data) {
+testControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataService', 'DataService1', function($scope, Data, $interval, DataService, DataService1) {
 	$scope.data = Data.query();
+	$interval(function() {
+		Data.query(function(ret) {
+			$scope.data = ret;
+			DataService1.t1();
+		});	
+	}, 3000);
 }]);
 
 testControllers.controller('AddCtrl', ['$scope', '$http', function($scope, $http) {
