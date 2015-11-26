@@ -7,6 +7,12 @@ testControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataServ
 			$scope.data = ret;
 		});	
 	}, 3000);
+	$scope.edit = function(id) {
+		window.location = '#/edit/' + id;
+	}
+	$scope.delete = function(id) {
+		DataService.deleteUser(id);
+	}
 }]);
 
 testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', function($scope, $http, $interval, DataService) {
@@ -14,20 +20,53 @@ testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 		$scope.checker = 0;
 		if(typeof user === 'undefined'){
 			$scope.msg = 'Please select a user name';
+			$("#myModal").modal('show');
+			setTimeout(function(){
+				$("#myModal").modal('hide');
+			}, 2000);
 		} else if (typeof user.name === 'undefined') {
 			$scope.msg = 'Please select a user name';
+			$("#myModal").modal('show');
+			setTimeout(function(){
+				$("#myModal").modal('hide');
+			}, 2000);
 		}else {
 			$scope.checker = 1;
 			$scope.msg = 'Processing...';
+			$("#myModal").modal('show');
 			DataService.addUser(user.name);
 			$interval(function() {
 				if ($scope.checker == 1) {
 					if (DataService.isDone) {
 						$scope.msg = 'Done';
-						$scope.checker == 0;
+						$("#myModal").modal('show');
+						setTimeout(function(){
+							$("#myModal").modal('hide');
+						}, 2000);
+						$scope.checker = 0;
 					}
 				}
 			}, 1000);
 		}
+	}
+}]);
+
+testControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams', '$interval', function($scope, DataService, $routeParams, $interval) {
+	DataService.setUserData($routeParams.id);
+	$scope.checker = true;
+	$scope.userName = '';
+	$scope.userId = '';
+	$interval(function(){
+		if ($scope.checker) {
+			$scope.userData = DataService.getUserData();
+			if ($scope.userData != false) {
+				$scope.checker = false;
+				$scope.userName = $scope.userData.name;
+				$scope.userId = $scope.userData.id;
+			}
+		}
+	}, 1000);
+	$scope.update = function(userName, id) {
+		DataService.updateUser(userName, id);
 	}
 }]);

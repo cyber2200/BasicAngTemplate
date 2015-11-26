@@ -1,6 +1,21 @@
-Show Entities<br>
 <div>
-	<div ng-repeat="entity in data">
-		{{entity.name}}
+	<div class="row" ng-repeat="entity in data">
+		<div class="col-md-10">
+			{{entity.name}}
+		</div>
+		<div class="col-md-2">
+			<a href="" ng-click="edit(entity.id);">Edit</a>
+			<a href="" ng-click="delete(entity.id);">Delete</a>
+		</div>		
+	</div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				The record has been deleted.
+			</div>
+		</div>
 	</div>
 </div>

@@ -15,6 +15,10 @@ testApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/add.html',
 		controller: 'AddCtrl'
 	}).
+	when('/edit/:id', {
+		templateUrl: 'partials/edit.html',
+		controller: 'EditCtrl'	
+	}).
 	otherwise({
 		redirectTo: '/show'
 	});
