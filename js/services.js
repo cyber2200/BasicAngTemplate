@@ -17,8 +17,9 @@ dataServices.factory('DataService', ['$http', function($http){
 				headers : {},
 				data : {'name' : name}
 			}
+			var parentObj = this;
 			$http(req).then(function success(res) {
-				this.done = true;
+				parentObj.done = true;
 			});
 		},
 		isDone : function() {
@@ -48,9 +49,9 @@ dataServices.factory('DataService', ['$http', function($http){
 				headers : {},
 				data : {'id' : id}
 			}
-			var self = this;
+			var parentObj = this;
 			$http(req).then(function success(res) {
-				self.userData = res.data.data;
+				parentObj.userData = res.data.data;
 			});			
 		},
 		getUserData : function() {
@@ -63,7 +64,6 @@ dataServices.factory('DataService', ['$http', function($http){
 				headers : {},
 				data : {'id' : id, 'name' : userName}
 			}
-			var self = this;
 			$http(req).then(function success(res) {
 				$("#myModal").modal('show');
 				setTimeout(function(){

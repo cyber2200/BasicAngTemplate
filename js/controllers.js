@@ -39,9 +39,12 @@ testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 				if ($scope.checker == 1) {
 					if (DataService.isDone) {
 						$scope.msg = 'Done';
+						$scope.user.name = '';
+						$("#user-input").focus();
 						$("#myModal").modal('show');
 						setTimeout(function(){
 							$("#myModal").modal('hide');
+							$("#user-input").focus();
 						}, 2000);
 						$scope.checker = 0;
 					}
