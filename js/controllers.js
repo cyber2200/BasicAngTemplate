@@ -70,6 +70,22 @@ testControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams',
 		}
 	}, 1000);
 	$scope.update = function(userName, id) {
-		DataService.updateUser(userName, id);
+		console.log(userName);
+		if(typeof userName === 'undefined'){
+			$scope.msg = 'Please select a user name';
+			$("#myModal").modal('show');
+			setTimeout(function(){
+				$("#myModal").modal('hide');
+			}, 2000);
+		} else if(userName === '') {
+			$scope.msg = 'Please select a user name';
+			$("#myModal").modal('show');
+			setTimeout(function(){
+				$("#myModal").modal('hide');
+			}, 2000);		
+		} else {
+			$scope.msg = 'Done';
+			DataService.updateUser(userName, id);
+		}
 	}
 }]);
