@@ -6,7 +6,7 @@ testControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataServ
 		Data.query(function(ret) {
 			$scope.data = ret;
 		});	
-	}, 3000);
+	}, 5000);
 	$scope.edit = function(id) {
 		window.location = '#/edit/' + id;
 	}
