@@ -1,9 +1,5 @@
 <form class="css-form" name="form" novalidate >
-	Name: <input type="text" ng-model="userData.name" name="uName" required/>
-	<br />
-    <div ng-show="form.$submitted || form.uName.$touched">
-		<div ng-show="form.uName.$error.required">Tell us your name.</div>
-    </div>
+	Name: <input id="user-input" type="text" ng-model="userData.name" name="uName" required/>
 	<input ng-click="update(userData.name, userData.id);" type="submit">
 </form>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

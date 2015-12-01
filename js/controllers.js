@@ -16,6 +16,7 @@ testControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataServ
 }]);
 
 testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', function($scope, $http, $interval, DataService) {
+	$("#user-input").focus();
 	$scope.update = function(user) {
 		$scope.checker = 0;
 		if(typeof user === 'undefined'){
@@ -55,6 +56,8 @@ testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 }]);
 
 testControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams', '$interval', function($scope, DataService, $routeParams, $interval) {
+	$scope.msg = 'Loading...';
+	$("#myModal").modal('show');
 	DataService.setUserData($routeParams.id);
 	$scope.checker = true;
 	$scope.userName = '';
@@ -63,14 +66,15 @@ testControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams',
 		if ($scope.checker) {
 			$scope.userData = DataService.getUserData();
 			if ($scope.userData != false) {
+				$("#myModal").modal('hide');
 				$scope.checker = false;
 				$scope.userName = $scope.userData.name;
 				$scope.userId = $scope.userData.id;
+				$("#user-input").focus();
 			}
 		}
 	}, 1000);
 	$scope.update = function(userName, id) {
-		console.log(userName);
 		if(typeof userName === 'undefined'){
 			$scope.msg = 'Please select a user name';
 			$("#myModal").modal('show');

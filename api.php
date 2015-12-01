@@ -60,8 +60,8 @@ if (isset($_GET['func']) && $_GET['func'] == 'getData') {
 	$i = 0;
 	$newData = array();
 	foreach ($data as &$row) {
+		$i++;
 		if ($row['id'] == $payloadData['id']) {
-			$i++;
 			$newData[] = array('id' => $i, 'name' => $payloadData['name']);
 		} else {
 			$newData[] = $row;
