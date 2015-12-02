@@ -1,9 +1,12 @@
 <div>
 	<div class="row" ng-repeat="entity in data">
-		<div class="col-md-10">
+		<div class="col-md-4">
 			{{entity.name}}
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-4">
+			{{entity.type}}
+		</div>
+		<div class="col-md-4">
 			<a href="" ng-click="edit(entity.id);">Edit</a>
 			<a href="" ng-click="delete(entity.id);">Delete</a>
 		</div>		

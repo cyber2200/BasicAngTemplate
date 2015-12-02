@@ -1,1 +1,1 @@
-[{"id":1,"name":"Test 2"},{"id":2,"name":"Test 4"},{"id":3,"name":"Test 6"},{"id":4,"name":"Test 7"}]
+[{"id":4,"type":"admin","name":"Test 1"},{"id":2,"name":"Test 2","type":"regular"},{"id":7,"name":"Test 3","type":"regular"}]

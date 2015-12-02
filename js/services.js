@@ -9,13 +9,13 @@ dataServices.factory('Data', ['$resource', function($resource){
 dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
 	return {
 		done : false,
-		addUser : function(name){
+		addUser : function(user){
 			this.done = false;
 			var req = {
 				method : 'POST',
 				url : './api.php?func=addUser',
 				headers : {},
-				data : {'name' : name}
+				data : user
 			}
 			var parentObj = this;
 			NProgress.start();
@@ -59,14 +59,14 @@ dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
 		getUserData : function() {
 			return this.userData;
 		},
-		updateUser : function(userName, id) {
+		updateUser : function(user) {
 			NProgress.start();
 			$("#user-input").prop('disabled', true);
 			var req = {
 				method : 'POST',
 				url : './api.php?func=updateUser',
 				headers : {},
-				data : {'id' : id, 'name' : userName}
+				data : user
 			}
 			$http(req).then(function success(res) {
 				NProgress.done();
@@ -89,6 +89,33 @@ dataServices.factory('Dialog', function(){
 				}, 2000);
 
 			});
+		}
+	}
+});
+
+dataServices.factory('Validator', function(){
+	return {
+		validateUserObj : function(user) {
+			var err = [];
+			// Normalizing
+			if (typeof user === 'undefined') {
+				user = {'name' : '', 'type' : ''};
+			}
+			if (typeof user.name === 'undefined') {
+				user.name = '';
+			}
+			if (typeof user.type === 'undefined') {
+				user.type = '';
+			}
+			
+			// Validating
+			if (user.name == '') {
+				err.push('Please enter a user name');
+			}
+			if (user.type == '') {
+				err.push('Please select a type');
+			}
+			return err;
 		}
 	}
 });
