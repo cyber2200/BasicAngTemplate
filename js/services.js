@@ -6,7 +6,7 @@ dataServices.factory('Data', ['$resource', function($resource){
 	});
 }]);
 
-dataServices.factory('DataService', ['$http', function($http){
+dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
 	return {
 		done : false,
 		addUser : function(name){
@@ -18,7 +18,10 @@ dataServices.factory('DataService', ['$http', function($http){
 				data : {'name' : name}
 			}
 			var parentObj = this;
+			NProgress.start();
 			$http(req).then(function success(res) {
+				NProgress.done(); 
+				Dialog.showDialog('User has been added');
 				parentObj.done = true;
 			});
 		},
@@ -26,6 +29,7 @@ dataServices.factory('DataService', ['$http', function($http){
 			return this.done;
 		},
 		deleteUser : function(id) {
+			NProgress.start();
 			this.done = false;
 			var req = {
 				method : 'POST',
@@ -34,10 +38,8 @@ dataServices.factory('DataService', ['$http', function($http){
 				data : {'id' : id}
 			}
 			$http(req).then(function success(res) {
-				$("#myModal").modal('show');
-				setTimeout(function(){
-					$("#myModal").modal('hide');
-				}, 2000);
+				NProgress.done();
+				Dialog.showDialog('User has been deleted');
 			});
 		},
 		userData : false,
@@ -58,6 +60,8 @@ dataServices.factory('DataService', ['$http', function($http){
 			return this.userData;
 		},
 		updateUser : function(userName, id) {
+			NProgress.start();
+			$("#user-input").prop('disabled', true);
 			var req = {
 				method : 'POST',
 				url : './api.php?func=updateUser',
@@ -65,11 +69,26 @@ dataServices.factory('DataService', ['$http', function($http){
 				data : {'id' : id, 'name' : userName}
 			}
 			$http(req).then(function success(res) {
-				$("#myModal").modal('show');
-				setTimeout(function(){
-					$("#myModal").modal('hide');
-				}, 2000);
+				NProgress.done();
+				Dialog.showDialog('User has been updated');
+				$("#user-input").prop('disabled', false);
 			});						
 		}
 	}
 }]);
+
+dataServices.factory('Dialog', function(){
+	return {
+		showDialog : function(txt) {
+			$("#dialog-msg-txt").html(txt);
+			$("#dialog-msg").fadeIn("slow", function(){
+				setTimeout(function(){
+					$("#dialog-msg").fadeOut("slow", function(){
+			
+					});							
+				}, 2000);
+
+			});
+		}
+	}
+});
