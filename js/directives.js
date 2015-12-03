@@ -1,6 +1,6 @@
 var crudDirectives = angular.module('crudDirectives', []);
-crudDirectives.directive('myTest', function(){
+crudDirectives.directive('crudUserForm', function(){
 	return {
-		templateUrl : 'templates/test.html'
+		templateUrl : 'templates/userForm.html'
 	}
 });
