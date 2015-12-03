@@ -6,7 +6,7 @@ dataServices.factory('Data', ['$resource', function($resource){
 	});
 }]);
 
-dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
+dataServices.factory('DataService', ['$http', 'ngToast', function($http, ngToast){
 	return {
 		done : false,
 		addUser : function(user){
@@ -21,7 +21,7 @@ dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
 			NProgress.start();
 			$http(req).then(function success(res) {
 				NProgress.done(); 
-				Dialog.showDialog('User has been added');
+				ngToast.create('User has been added');
 				parentObj.done = true;
 			});
 		},
@@ -39,7 +39,7 @@ dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
 			}
 			$http(req).then(function success(res) {
 				NProgress.done();
-				Dialog.showDialog('User has been deleted');
+				ngToast.create('User has been deleted');
 			});
 		},
 		userData : false,
@@ -70,28 +70,12 @@ dataServices.factory('DataService', ['$http', 'Dialog', function($http, Dialog){
 			}
 			$http(req).then(function success(res) {
 				NProgress.done();
-				Dialog.showDialog('User has been updated');
+				ngToast.create('User has been updated');
 				$("#user-input").prop('disabled', false);
 			});						
 		}
 	}
 }]);
-
-dataServices.factory('Dialog', function(){
-	return {
-		showDialog : function(txt) {
-			$("#dialog-msg-txt").html(txt);
-			$("#dialog-msg").fadeIn("slow", function(){
-				setTimeout(function(){
-					$("#dialog-msg").fadeOut("slow", function(){
-			
-					});							
-				}, 2000);
-
-			});
-		}
-	}
-});
 
 dataServices.factory('Validator', function(){
 	return {

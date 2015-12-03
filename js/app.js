@@ -1,11 +1,14 @@
-var testApp = angular.module('testApp', [
+var crudApp = angular.module('crudApp', [
 	'ngRoute',
 	'ngResource',
-	'testControllers',
+	'ngToast',
+	'crudControllers',
 	'dataServices',
+	'crudDirectives',
+	'ngAnimate',
 ]);
 
-testApp.config(['$routeProvider', function($routeProvider) {
+crudApp.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.
 	when('/show', {
 		templateUrl: 'partials/show.html',
@@ -21,5 +24,13 @@ testApp.config(['$routeProvider', function($routeProvider) {
 	}).
 	otherwise({
 		redirectTo: '/show'
+	});
+}]);
+
+crudApp.config(['ngToastProvider', function(ngToastProvider) {
+	ngToastProvider.configure({
+		animation: 'slide',
+		verticalPosition: 'top',
+		horizontalPosition: 'center',
 	});
 }]);

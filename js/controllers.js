@@ -1,6 +1,6 @@
-var testControllers = angular.module('testControllers', []);
+var crudControllers = angular.module('crudControllers', []);
 
-testControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataService', 'Dialog', function($scope, Data, $interval, DataService, Dialog) {
+crudControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataService', 'ngToast', function($scope, Data, $interval, DataService, ngToast) {
 	NProgress.start();
 	setTimeout(function() {
 		NProgress.done(); 
@@ -20,7 +20,7 @@ testControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataServ
 	}
 }]);
 
-testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', 'Validator', function($scope, $http, $interval, DataService, Validator) {
+crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', 'Validator', function($scope, $http, $interval, DataService, Validator) {
 	NProgress.start();
 	setTimeout(function() { 
 		NProgress.done(); 
@@ -62,7 +62,7 @@ testControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 	}
 }]);
 
-testControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams', '$interval', 'Validator', function($scope, DataService, $routeParams, $interval, Validator) {
+crudControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams', '$interval', 'Validator', function($scope, DataService, $routeParams, $interval, Validator) {
 	NProgress.start();
 	$("#user-input").prop('disabled', true);
 	DataService.setUserData($routeParams.id);
