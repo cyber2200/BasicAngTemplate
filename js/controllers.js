@@ -27,7 +27,7 @@ crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 		$('.fade').removeClass('out'); 
 	}, 500);
 	$("#user-input").focus();
-	$scope.add = function(user) {
+	$scope.upsert = function(user) {
 		$scope.checker = 0;
 		var err = Validator.validateUserObj(user);
 		
@@ -81,7 +81,7 @@ crudControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams',
 			}
 		}
 	}, 1000);
-	$scope.update = function(user) {
+	$scope.upsert = function(user) {
 		var err = Validator.validateUserObj(user);
 				if (err.length != 0) {
 			var html = '';
