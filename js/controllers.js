@@ -1,17 +1,20 @@
 var crudControllers = angular.module('crudControllers', []);
 
-crudControllers.controller('ShowCtrl', ['$scope', 'Data', '$interval', 'DataService', 'ngToast', function($scope, Data, $interval, DataService, ngToast) {
+crudControllers.controller('ShowCtrl', ['$scope', '$interval', 'DataService', 'ngToast', function($scope, $interval, DataService, ngToast) {
 	NProgress.start();
 	setTimeout(function() {
 		NProgress.done(); 
-		$('.fade').removeClass('out'); 
 	}, 200);
-	$scope.data = Data.query();
-	$interval(function() {
-		Data.query(function(ret) {
-			$scope.data = ret;
-		});
-	}, 5000);
+
+	var dataT = {};
+	dataT = DataService.getUsersData();
+	$scope.data = dataT.data;
+
+	$interval(function(){
+		dataT = DataService.getUsersData();
+		$scope.data = dataT.data;
+	}, 1000);
+
 	$scope.edit = function(id) {
 		window.location = '#/edit/' + id;
 	}
@@ -24,7 +27,6 @@ crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 	NProgress.start();
 	setTimeout(function() { 
 		NProgress.done(); 
-		$('.fade').removeClass('out'); 
 	}, 500);
 	$("#user-input").focus();
 	$scope.upsert = function(user) {
