@@ -10,7 +10,7 @@ crudControllers.controller('ShowCtrl', ['$scope', '$interval', 'DataService', 'n
 	dataT = DataService.getUsersData();
 	$scope.data = dataT.data;
 
-	$interval(function(){
+	var interval = $interval(function(){
 		dataT = DataService.getUsersData();
 		$scope.data = dataT.data;
 	}, 1000);
@@ -21,6 +21,10 @@ crudControllers.controller('ShowCtrl', ['$scope', '$interval', 'DataService', 'n
 	$scope.delete = function(id) {
 		DataService.deleteUser(id);
 	}
+
+	$scope.$on("$destroy", function(event) {
+		$interval.cancel(interval);
+    });
 }]);
 
 crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', 'Validator', function($scope, $http, $interval, DataService, Validator) {

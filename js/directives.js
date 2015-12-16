@@ -5,6 +5,7 @@ crudDirectives.directive('crudUserForm', function(){
 		templateUrl : 'templates/userForm.html'
 	}
 });
+
 crudDirectives.directive('crudTest', function(){
 	return {
 		restrict : 'E',
