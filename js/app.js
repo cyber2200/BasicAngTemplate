@@ -2,10 +2,10 @@ var crudApp = angular.module('crudApp', [
 	'ngRoute',
 	'ngResource',
 	'ngToast',
+	'ngAnimate',
 	'crudControllers',
 	'dataServices',
 	'crudDirectives',
-	'ngAnimate',
 ]);
 
 crudApp.config(['$routeProvider', function($routeProvider) {
