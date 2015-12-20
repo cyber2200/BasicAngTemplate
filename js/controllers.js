@@ -1,25 +1,34 @@
 var crudControllers = angular.module('crudControllers', []);
 
 crudControllers.controller('ShowCtrl', ['$scope', '$interval', 'DataService', 'ngToast', function($scope, $interval, DataService, ngToast) {
-	NProgress.start();
-	setTimeout(function() {
-		NProgress.done(); 
-	}, 200);
-
-	var dataT = {};
-	dataT = DataService.getUsersData();
-	$scope.data = dataT.data;
+	
+	var currentData = [];
+	var newData = [];
+	DataService.getUsersData().then(function(res) {
+		currentData = res.data;
+		$scope.data = JSON.parse(JSON.stringify(currentData));
+	});
 
 	var interval = $interval(function(){
-		dataT = DataService.getUsersData();
-		$scope.data = dataT.data;
+		DataService.getUsersData().then(function(res) {
+			newData = res.data;
+			if (JSON.stringify(newData) !== JSON.stringify(currentData)) {
+				currentData =  res.data;
+				$scope.data = JSON.parse(JSON.stringify(currentData));
+				console.log('New');
+			}
+		});
 	}, 1000);
 
 	$scope.edit = function(id) {
 		window.location = '#/edit/' + id;
 	}
 	$scope.delete = function(id) {
-		DataService.deleteUser(id);
+		NProgress.start();
+		DataService.deleteUser(id).then(function(res) {
+			NProgress.done();			
+			ngToast.create('User has been deleted');
+		});
 	}
 
 	$scope.$on("$destroy", function(event) {
@@ -27,7 +36,7 @@ crudControllers.controller('ShowCtrl', ['$scope', '$interval', 'DataService', 'n
     });
 }]);
 
-crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', 'Validator', function($scope, $http, $interval, DataService, Validator) {
+crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataService', 'Validator', 'ngToast', function($scope, $http, $interval, DataService, Validator, ngToast) {
 	NProgress.start();
 	setTimeout(function() { 
 		NProgress.done(); 
@@ -49,21 +58,18 @@ crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 			}, 2000);			
 		} else {
 			$("#user-input").prop('disabled', true);
-			$scope.checker = 1;
 			$scope.msg = 'Processing...';
-			DataService.addUser(user);
-			$interval(function() {
-				if ($scope.checker == 1) {
-					if (DataService.isDone) {
-						$scope.msg = 'Done';
-						$scope.user.name = '';
-						$scope.user.type = '';
-						$("#user-input").prop('disabled', false);
-						$("#user-input").focus();
-						$scope.checker = 0;
-					}
-				}
-			}, 1000);
+			NProgress.start();
+			DataService.addUser(user).then(function(res) {
+				NProgress.done();
+				ngToast.create('User has been added');
+				console.log(res);
+				$scope.msg = 'Done';
+				$scope.user.name = '';
+				$scope.user.type = '';
+				$("#user-input").prop('disabled', false);
+				$("#user-input").focus();
+			});
 		}
 	}
 }]);
@@ -71,25 +77,20 @@ crudControllers.controller('AddCtrl', ['$scope', '$http', '$interval', 'DataServ
 crudControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams', '$interval', 'Validator', function($scope, DataService, $routeParams, $interval, Validator) {
 	NProgress.start();
 	$("#user-input").prop('disabled', true);
-	DataService.setUserData($routeParams.id);
-	$scope.checker = true;
 	$scope.userName = '';
 	$scope.userId = '';
-	$interval(function(){
-		if ($scope.checker) {
-			$scope.userData = DataService.getUserData();
-			if ($scope.userData != false) {
-				NProgress.done();
-				$("#user-input").prop('disabled', false);
-				$scope.checker = false;
-				$scope.user = $scope.userData;
-				$("#user-input").focus();
-			}
-		}
-	}, 1000);
+
+	$scope.userData = DataService.getUserData($routeParams.id).then(function(res) {
+		console.log(res);
+		NProgress.done();
+		$("#user-input").prop('disabled', false);
+		$scope.user = res;
+		$("#user-input").focus();
+	});
+
 	$scope.upsert = function(user) {
 		var err = Validator.validateUserObj(user);
-				if (err.length != 0) {
+		if (err.length != 0) {
 			var html = '';
 			for (var i = 0; i < err.length; i++) {
 				html += err[i] + '<br>';
@@ -100,7 +101,12 @@ crudControllers.controller('EditCtrl', ['$scope', 'DataService', '$routeParams',
 				$("#myModal").modal('hide');
 			}, 2000);			
 		} else { 
-			DataService.updateUser(user);	
+			NProgress.start();
+			$("#user-input").prop('disabled', true);
+			DataService.updateUser(user).then(function(res){
+				$("#user-input").prop('disabled', false);	
+				NProgress.done();					
+			});	
 		}
 	}
 }]);

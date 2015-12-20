@@ -2,7 +2,6 @@ var dataServices = angular.module('dataServices', ['ngResource']);
 
 dataServices.factory('DataService', ['$http', 'ngToast', function($http, ngToast){
 	return {
-		usersData : false,
 		getUsersData : function() {
             var req = {
                 method : 'POST',
@@ -10,15 +9,11 @@ dataServices.factory('DataService', ['$http', 'ngToast', function($http, ngToast
                 headers : {},
                 data : ''
             }
-            var parentObj = this;
-            $http(req).then(function success(res) {
-                parentObj.usersData = res;
+            return $http(req).then(function success(res) {
+				return res;
             });
-			return parentObj.usersData;
 		},
-		done : false,
 		addUser : function(user){
-			this.done = false;
 			var req = {
 				method : 'POST',
 				url : './api.php?func=addUser',
@@ -26,28 +21,19 @@ dataServices.factory('DataService', ['$http', 'ngToast', function($http, ngToast
 				data : user
 			}
 			var parentObj = this;
-			NProgress.start();
-			$http(req).then(function success(res) {
-				NProgress.done(); 
-				ngToast.create('User has been added');
-				parentObj.done = true;
+			return $http(req).then(function success(res) {
+				return res;
 			});
 		},
-		isDone : function() {
-			return this.done;
-		},
 		deleteUser : function(id) {
-			NProgress.start();
-			this.done = false;
 			var req = {
 				method : 'POST',
 				url : './api.php?func=deleteUser',
 				headers : {},
 				data : {'id' : id}
 			}
-			$http(req).then(function success(res) {
-				NProgress.done();
-				ngToast.create('User has been deleted');
+			return $http(req).then(function success(res) {
+				return res;
 			});
 		},
 		userData : false,
@@ -64,22 +50,27 @@ dataServices.factory('DataService', ['$http', 'ngToast', function($http, ngToast
 				parentObj.userData = res.data.data;
 			});			
 		},
-		getUserData : function() {
-			return this.userData;
+		getUserData : function(id) {
+			var req = {
+				method : 'POST',
+				url : './api.php?func=getUser',
+				headers : {},
+				data : {'id' : id}
+			}
+			var parentObj = this;
+			return $http(req).then(function success(res) {
+				return res.data.data;
+			});			
 		},
 		updateUser : function(user) {
-			NProgress.start();
-			$("#user-input").prop('disabled', true);
 			var req = {
 				method : 'POST',
 				url : './api.php?func=updateUser',
 				headers : {},
 				data : user
 			}
-			$http(req).then(function success(res) {
-				NProgress.done();
-				ngToast.create('User has been updated');
-				$("#user-input").prop('disabled', false);
+			return $http(req).then(function success(res) {
+				return res;
 			});						
 		}
 	}
