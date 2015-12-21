@@ -16,7 +16,7 @@ if (isset($_GET['func']) && $_GET['func'] == 'getData') {
 	$data = json_decode($jsonData, true);
 	
 	$counter++;
-	$data[] = array('id' => $counter++, 'name' => $payloadData['name'], 'type' => $payloadData['type']);
+	$data[] = array('id' => $counter, 'name' => $payloadData['name'], 'type' => $payloadData['type']);
 	file_put_contents("./data/db.json", json_encode($data));
 	echo json_encode(array('ret' => 'OK'));	
 } elseif (isset($_GET['func']) && $_GET['func'] == 'deleteUser') {
