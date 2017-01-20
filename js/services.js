@@ -36,20 +36,6 @@ dataServices.factory('DataService', ['$http', 'ngToast', function($http, ngToast
 				return res;
 			});
 		},
-		userData : false,
-		setUserData : function(id) {
-			this.dataReady = false;
-			var req = {
-				method : 'POST',
-				url : './api.php?func=getUser',
-				headers : {},
-				data : {'id' : id}
-			}
-			var parentObj = this;
-			$http(req).then(function success(res) {
-				parentObj.userData = res.data.data;
-			});			
-		},
 		getUserData : function(id) {
 			var req = {
 				method : 'POST',
